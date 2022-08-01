@@ -1,0 +1,10 @@
+
+kdt:
+  version: "v1.0-dev"
+  minimum-order-amount: 1
+  support-vendors:
+    - dev-a
+    - dev-b
+  description: |-
+    dev
+    dev

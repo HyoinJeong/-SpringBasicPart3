@@ -12,6 +12,7 @@
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
+<img src="<c:url value="/resources/bg.jpg" />" class="img-fluid">
 <p>The time on the server is ${serverTime}</p>
 <h2>Customer Table</h2>
 <table class="table table-striped table-hover" >

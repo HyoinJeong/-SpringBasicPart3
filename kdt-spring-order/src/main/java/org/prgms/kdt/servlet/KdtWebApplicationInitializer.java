@@ -23,8 +23,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.EncodedResourceResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -41,6 +43,15 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
         @Override
         public void configureViewResolvers(ViewResolverRegistry registry) {
             registry.jsp();
+        }
+
+        @Override
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/resources/**")
+                    .addResourceLocations("/resources/")
+                    .setCachePeriod(60)
+                    .resourceChain(true)
+                    .addResolver(new EncodedResourceResolver());
         }
 
         @Bean

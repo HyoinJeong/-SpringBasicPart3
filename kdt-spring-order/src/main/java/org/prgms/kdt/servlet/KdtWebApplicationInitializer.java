@@ -7,7 +7,10 @@ import org.prgms.kdt.customer.CustomerService;
 import org.prgms.kdt.customer.CustomerServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +30,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -39,10 +45,24 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
     @Configuration
     @ComponentScan(basePackages = "org.prgms.kdt.customer")
     @EnableTransactionManagement
-    static class AppConfig implements WebMvcConfigurer {
+    static class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+        ApplicationContext applicationContext;
+
         @Override
         public void configureViewResolvers(ViewResolverRegistry registry) {
-            registry.jsp();
+            registry.jsp().viewNames(new String[]{"jsp/*"});
+            var springResourceTemplateResolver = new SpringResourceTemplateResolver();
+            springResourceTemplateResolver.setApplicationContext(applicationContext);
+            springResourceTemplateResolver.setPrefix("/WEB-INF/");
+            springResourceTemplateResolver.setSuffix(".html");
+            var springTemplateEngine = new SpringTemplateEngine();
+            springTemplateEngine.setTemplateResolver(springResourceTemplateResolver);
+
+            var thymeleafViewResolver = new ThymeleafViewResolver();
+            thymeleafViewResolver.setTemplateEngine(springTemplateEngine);
+            thymeleafViewResolver.setOrder(1);
+            thymeleafViewResolver.setViewNames(new String[]{"views/*"});
+            registry.viewResolver(thymeleafViewResolver);
         }
 
         @Override
@@ -82,6 +102,10 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
             return new DataSourceTransactionManager(dataSource);
         }
 
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            this.applicationContext=applicationContext;
+        }
     }
 
     @Override

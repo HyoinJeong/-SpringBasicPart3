@@ -1,5 +1,6 @@
 package org.prgms.kdt.customer;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,13 @@ public class CustomerController {
     @ResponseBody
     public List<Customer> findCustomers(){
         return customerService.getAllCustomers();
+    }
+
+    @GetMapping("/api/v1/customers/{customerId}")
+    @ResponseBody
+    public ResponseEntity<Customer> findCustomer(@PathVariable("customerId") UUID customerId){
+        var customer=customerService.getCustomer(customerId);
+        return customer.map(v->ResponseEntity.ok(v)).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/customers")

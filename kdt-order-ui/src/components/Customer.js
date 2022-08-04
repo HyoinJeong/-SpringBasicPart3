@@ -7,7 +7,7 @@ export function Customer() {
   const [customer, setCustomer] = useState({});
   let { customerId } = useParams();
   useLayoutEffect(() => {
-    axios.get('http://localhost:8080/kdt/api/v1/customers/' + customerId)
+    axios.get('/kdt_spring_order_war_exploded/api/v1/customers/' + customerId)
       .then(v => {
         console.log(v);
         setCustomer(v.data);
@@ -15,7 +15,7 @@ export function Customer() {
   }, []);
 
   const submit = data => {
-    axios.post('http://localhost:8080/kdt/api/v1/customers/' + customerId, data)
+    axios.post('/kdt_spring_order_war_exploded/api/v1/customers/' + customerId, data)
       .then(v => {
         setCustomer(v.data);
       });

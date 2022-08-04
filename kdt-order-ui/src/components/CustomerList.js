@@ -7,7 +7,7 @@ export function CustomerList() {
   const [customers, setCustomers] = useState([]);
 
   useLayoutEffect(() => {
-    axios.get('http://localhost:8080/kdt/api/v1/customers', {
+    axios.get('/kdt_spring_order_war_exploded/api/v1/customers', {
       headers: {
         'Content-Type': 'application/json',
       },

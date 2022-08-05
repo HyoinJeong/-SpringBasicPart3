@@ -1,5 +1,8 @@
 package org.prgms.kdt.customer;
 
+import org.prgms.kdt.servlet.KdtWebApplicationInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,9 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -30,6 +36,13 @@ public class CustomerController {
     public ResponseEntity<Customer> findCustomer(@PathVariable("customerId") UUID customerId){
         var customer=customerService.getCustomer(customerId);
         return customer.map(v->ResponseEntity.ok(v)).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/api/v1/customers/{customerId}")
+    @ResponseBody
+    public CustomerDto saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer){
+        logger.info("Got customer save request {}",customer);
+        return customer;
     }
 
     @GetMapping("/customers")

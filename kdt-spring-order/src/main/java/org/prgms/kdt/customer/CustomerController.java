@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -33,6 +34,7 @@ public class CustomerController {
 
     @GetMapping("/api/v1/customers/{customerId}")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Customer> findCustomer(@PathVariable("customerId") UUID customerId){
         var customer=customerService.getCustomer(customerId);
         return customer.map(v->ResponseEntity.ok(v)).orElse(ResponseEntity.notFound().build());

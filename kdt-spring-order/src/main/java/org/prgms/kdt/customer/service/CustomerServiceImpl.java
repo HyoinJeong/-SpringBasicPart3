@@ -1,5 +1,7 @@
-package org.prgms.kdt.customer;
+package org.prgms.kdt.customer.service;
 
+import org.prgms.kdt.customer.repository.CustomerRepository;
+import org.prgms.kdt.customer.model.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {

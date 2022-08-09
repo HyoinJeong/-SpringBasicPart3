@@ -1,4 +1,6 @@
-package org.prgms.kdt.customer;
+package org.prgms.kdt.customer.controller;
+
+import org.prgms.kdt.customer.model.Customer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,4 +1,6 @@
-package org.prgms.kdt.customer;
+package org.prgms.kdt.customer.repository;
+
+import org.prgms.kdt.customer.model.Customer;
 
 import java.util.List;
 import java.util.Optional;
